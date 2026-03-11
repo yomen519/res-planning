@@ -31,8 +31,8 @@ public class DemoCell : MonoBehaviour, ICell
         _cellIndex = cellIndex;
         _contactInfo = contactInfo;
 
-        nameLabel.text = contactInfo.Name;
-        idLabel.text = contactInfo.id;
+ //       nameLabel.text = contactInfo.Name;
+  //      idLabel.text = contactInfo.id;
     }
 
     
