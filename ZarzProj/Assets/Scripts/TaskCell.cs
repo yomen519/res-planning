@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro; 
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class TaskCell : MonoBehaviour
@@ -10,18 +11,27 @@ public class TaskCell : MonoBehaviour
     public TMP_Text TaskName, UserName;
     public string content;
     public DateTime endDate;
-  
-
+    [SerializeField]Image TaskImage;
+    private void Awake()
+    {
+        UpdateColor();
+    }
+    public void UpdateColor()
+    {
+        TaskImage.color = GetComponentInParent<TaskBar>().Top.color;
+    }
     public void SetTaskCell(string n, string username, string c, DateTime d)
     {
         SetTaskName(n); 
         SetUserName(username);
         SetContent(c);
         SetDate(d);
+        
     }
     public void ExportTaskCell()
     {
-        FindInActiveObjectByName("Current Task").SetActive(true);
+        TaskConfigurator[] objs = Resources.FindObjectsOfTypeAll<TaskConfigurator>() as TaskConfigurator[];
+        objs[0].gameObject.SetActive(true);
         FindObjectOfType<TaskConfigurator>().ImportTask(this);
     }
      void SetTaskName(string n)
@@ -41,23 +51,9 @@ public class TaskCell : MonoBehaviour
         endDate = d; 
     }
     // Update is called once per frame
-    void Update()
+    public void DestroyThis()
     {
+        Destroy(gameObject);
+    }
 
-    }
-    GameObject FindInActiveObjectByName(string name)
-    {
-        Transform[] objs = Resources.FindObjectsOfTypeAll<Transform>() as Transform[];
-        for (int i = 0; i < objs.Length; i++)
-        {
-            if (objs[i].hideFlags == HideFlags.None)
-            {
-                if (objs[i].name == name)
-                {
-                    return objs[i].gameObject;
-                }
-            }
-        }
-        return null;
-    }
 }

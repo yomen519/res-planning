@@ -44,6 +44,10 @@ public class Dragme : MonoBehaviour
         {
             s.ReloadData(); 
         }
+        foreach(TaskCell c in FindObjectsOfType<TaskCell>())
+        {
+            c.UpdateColor();
+        }
 
 
     }
