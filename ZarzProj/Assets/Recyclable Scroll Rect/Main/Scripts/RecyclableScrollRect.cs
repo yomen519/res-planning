@@ -48,14 +48,14 @@ namespace PolyAndCode.UI
 
         private RecyclingSystem _recyclingSystem;
         private Vector2 _prevAnchoredPos;
-
+        public Transform cont; 
         protected override void Start()
         {
             //defafult(built-in) in scroll rect can have both directions enabled, Recyclable scroll rect can be scrolled in only one direction.
             //setting default as vertical, Initialize() will set this again. 
             vertical = true;
             horizontal = false;
-
+            cont = this.content; 
             if (!Application.isPlaying) return;
 
             if (SelfInitialize) Initialize();

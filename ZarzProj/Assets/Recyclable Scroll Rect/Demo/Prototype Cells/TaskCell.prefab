@@ -481,6 +481,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15fffd6ea5af9e646a8cefbcf3c69b17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentCanvas: {fileID: 0}
 --- !u!114 &1206061089316093675
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -517,6 +518,22 @@ MonoBehaviour:
         - m_Target: {fileID: 5535592274637127102}
           m_TargetAssemblyTypeName: Dragme, Assembly-CSharp
           m_MethodName: OnBeginDrag
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 3
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 5535592274637127102}
+          m_TargetAssemblyTypeName: Dragme, Assembly-CSharp
+          m_MethodName: OnEndDrag
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
