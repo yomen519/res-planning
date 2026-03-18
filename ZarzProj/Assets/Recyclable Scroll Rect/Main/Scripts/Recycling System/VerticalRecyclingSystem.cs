@@ -94,6 +94,7 @@ namespace PolyAndCode.UI
         /// </summary>
         private void CreateCellPool()
         {
+        
             //Reseting Pool
             if (_cellPool != null)
             {
@@ -117,9 +118,12 @@ namespace PolyAndCode.UI
             {
                 SetTopAnchor(PrototypeCell);
             }
-
-            //Reset
-            _topMostCellColoumn = _bottomMostCellColoumn = 0;
+            if (DataSource == null)
+            {
+                return;
+            }
+                //Reset
+                _topMostCellColoumn = _bottomMostCellColoumn = 0;
 
             //Temps
             float currentPoolCoverage = 0;

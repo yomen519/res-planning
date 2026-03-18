@@ -28,7 +28,11 @@ public class Dragme : MonoBehaviour
             this.isDragging = true;
              transform.SetParent(parentCanvas.transform);
              transform.SetAsLastSibling();
-     
+ 
+        foreach (RecyclableScrollRect s in FindObjectsOfType<RecyclableScrollRect>())
+        {
+            s.ReloadData();
+        }
 
     }
     public void OnEndDrag()
@@ -36,7 +40,12 @@ public class Dragme : MonoBehaviour
         if (this.isDragging == false) { }
         this.isDragging = false;
         transform.SetParent(GetClosestObject().cont);
-  
+        foreach(RecyclableScrollRect s in FindObjectsOfType<RecyclableScrollRect>())
+        {
+            s.ReloadData(); 
+        }
+
+
     }
         public void OnPointerUp()
     {

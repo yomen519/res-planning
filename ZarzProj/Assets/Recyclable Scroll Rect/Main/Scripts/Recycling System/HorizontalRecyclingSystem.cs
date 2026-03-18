@@ -106,9 +106,9 @@ namespace PolyAndCode.UI
                 _cachedCells = new List<ICell>();
                 _cellPool = new List<RectTransform>();
             }
-
-            //Set the prototype cell active and set cell anchor as top 
-            PrototypeCell.gameObject.SetActive(true);
+            if (DataSource == null) return; 
+                //Set the prototype cell active and set cell anchor as top 
+                PrototypeCell.gameObject.SetActive(true);
             SetLeftAnchor(PrototypeCell);
 
             //set new cell size according to its aspect ratio
