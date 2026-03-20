@@ -16,7 +16,7 @@ public class Dragme : MonoBehaviour
 
     void Start()
     {
-        parentCanvas = GetComponentInParent<Canvas>(); 
+        parentCanvas = FindObjectOfType<Canvas>(); 
     }
     public void OnClick()
     {
@@ -54,7 +54,7 @@ public class Dragme : MonoBehaviour
         public void OnPointerUp()
     {
         transform.SetParent(GetClosestObject().cont);
-   
+    
         
         GetComponentInChildren<Image>().raycastTarget = true;
         if (this.isDragging == false) {  }
@@ -83,13 +83,15 @@ public class Dragme : MonoBehaviour
         RecyclableScrollRect closestObject = null;
         for (int i = 0; i < FindObjectsOfType<RecyclableScrollRect>().Length; i++)  //list of gameObjects to search through
         {
+            
             float dist = Vector3.Distance(FindObjectsOfType<RecyclableScrollRect>()[i].transform.position, transform.position);
-            if (dist < closest)
+            if (dist < closest && FindObjectsOfType<RecyclableScrollRect>()[i].Direction!= RecyclableScrollRect.DirectionType.Horizontal)
             {
                 closest = dist;
                 closestObject = FindObjectsOfType<RecyclableScrollRect>()[i];
             }
         }
+       
         return closestObject;
     }
 }

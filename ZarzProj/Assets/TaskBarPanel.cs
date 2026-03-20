@@ -1,3 +1,4 @@
+using PolyAndCode.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,11 +6,12 @@ using UnityEngine;
 public class TaskBarPanel : MonoBehaviour
 {
     [SerializeField] GameObject TaskCellPrefab;
-
+    [SerializeField] RecyclableScrollRect scrollRect;
     public void AddTaskBar()
     {
         GameObject newTaskBar = Instantiate(TaskCellPrefab, transform);
-        newTaskBar.transform.SetSiblingIndex(transform.childCount - 2);
+        newTaskBar.transform.SetAsLastSibling();
+        scrollRect.ReloadData();
     }
     // Start is called before the first frame update
     void Start()

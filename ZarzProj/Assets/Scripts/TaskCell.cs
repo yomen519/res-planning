@@ -18,6 +18,7 @@ public class TaskCell : MonoBehaviour
     }
     public void UpdateColor()
     {
+        if(GetComponentInParent<TaskBar>())
         TaskImage.color = GetComponentInParent<TaskBar>().Top.color;
     }
     public void SetTaskCell(string n, string username, string c, DateTime d)
