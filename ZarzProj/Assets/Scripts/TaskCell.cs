@@ -11,6 +11,7 @@ public class TaskCell : MonoBehaviour
     public TMP_Text TaskName, UserName;
     public string content;
     public DateTime endDate;
+    public Player assignedPlayer;
     [SerializeField]Image TaskImage;
     private void Awake()
     {
@@ -21,14 +22,18 @@ public class TaskCell : MonoBehaviour
         if(GetComponentInParent<TaskBar>())
         TaskImage.color = GetComponentInParent<TaskBar>().Top.color;
     }
-    public void SetTaskCell(string n, string username, string c, DateTime d)
+    public void SetTaskCell(string n, string username, string c, DateTime d,Player p)
     {
         SetTaskName(n); 
         SetUserName(username);
         SetContent(c);
         SetDate(d);
+
+        if(p != null)
+            SetPlayer(p); 
         
     }
+
     public void ExportTaskCell()
     {
         TaskConfigurator[] objs = Resources.FindObjectsOfTypeAll<TaskConfigurator>() as TaskConfigurator[];
@@ -55,6 +60,11 @@ public class TaskCell : MonoBehaviour
     public void DestroyThis()
     {
         Destroy(gameObject);
+    }
+    void SetPlayer(Player player)
+    {
+        assignedPlayer = player;
+        SetUserName(player.Name);
     }
 
 }

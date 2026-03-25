@@ -11,6 +11,8 @@ public class TaskConfigurator : MonoBehaviour
     [SerializeField] TMP_Text Username;
     [SerializeField] TMP_InputField content;
     [SerializeField] TMP_InputField endDate;
+    [SerializeField] TMP_Text AssignedUsers; 
+    public Player assignedPlayer; 
 
     public void ImportTask(TaskCell cell)
     {
@@ -23,7 +25,13 @@ public class TaskConfigurator : MonoBehaviour
     }
     public void SaveCurrentTask()
     {
-        myCell.SetTaskCell(TaskName.text, Username.text, content.text, DateTime.Parse(endDate.text));
+
+        myCell.SetTaskCell(TaskName.text, Username.text, content.text, DateTime.Parse(endDate.text),assignedPlayer);
+    }
+    public void SetPlayer(Player p)
+    {
+        assignedPlayer = p;
+        AssignedUsers.text = assignedPlayer.Name;
     }
 
     // Update is called once per frame
