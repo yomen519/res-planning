@@ -39,7 +39,8 @@ public class DemoCell : MonoBehaviour, ICell
     {
         nameLabel.text = player.Name;
         idLabel.text = player.email;
-        myPlayer = player; 
+        myPlayer = player;
+     
     }
 
     private void ButtonListener()
@@ -51,6 +52,6 @@ public class DemoCell : MonoBehaviour, ICell
     public void AssignPlayer()
     {
         GetComponentInParent<RecyclableScrollRect>().transform.parent.gameObject.SetActive(false);
-        GetComponentInParent<TaskConfigurator>().SetPlayer(myPlayer);
+        GetComponentInParent<TaskConfigurator>().SetPlayer(myPlayer); Destroy(gameObject);
     }
 }

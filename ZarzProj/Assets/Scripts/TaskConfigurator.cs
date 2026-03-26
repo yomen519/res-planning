@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using System;
+using PolyAndCode.UI;
 
 public class TaskConfigurator : MonoBehaviour
 {
@@ -12,7 +13,10 @@ public class TaskConfigurator : MonoBehaviour
     [SerializeField] TMP_InputField content;
     [SerializeField] TMP_InputField endDate;
     [SerializeField] TMP_Text AssignedUsers; 
-    public Player assignedPlayer; 
+    public Player assignedPlayer;
+    [SerializeField] RecyclableScrollRect LocalRect;
+    [SerializeField] GameObject LocalUserPrefab;
+
 
     public void ImportTask(TaskCell cell)
     {
@@ -31,7 +35,10 @@ public class TaskConfigurator : MonoBehaviour
     public void SetPlayer(Player p)
     {
         assignedPlayer = p;
-        AssignedUsers.text = assignedPlayer.Name;
+        
+        GameObject LocalUserAdded = Instantiate(LocalUserPrefab, LocalRect.content);
+        LocalRect.ReloadData();
+        LocalUserAdded.GetComponent<DemoCell>().nameLabel.text = p.Name;
     }
 
     // Update is called once per frame
