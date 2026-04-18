@@ -1,70 +1,104 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using TMPro; 
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-
+// Represents a single task item in the UI
 public class TaskCell : MonoBehaviour
 {
+    // UI text fields for displaying task name and assigned user
     public TMP_Text TaskName, UserName;
-    public string content;
-    public DateTime endDate;
-    public Player assignedPlayer;
-    [SerializeField]Image TaskImage;
+
+    // Task data
+    public string content;          // Task description/content
+    public DateTime endDate;        // Task deadline
+    public Player assignedPlayer;  // Player assigned to this task
+
+    // Background or visual image for the task (used for color coding)
+    [SerializeField] Image TaskImage;
+
+    // Called when the object is initialized
     private void Awake()
     {
+        // Set initial color based on parent TaskBar
         UpdateColor();
     }
+
+    // Updates the task color based on its parent TaskBar
     public void UpdateColor()
     {
-        if(GetComponentInParent<TaskBar>())
-        TaskImage.color = GetComponentInParent<TaskBar>().Top.color;
+        // Check if this object is inside a TaskBar
+        if (GetComponentInParent<TaskBar>())
+        {
+            // Match the color of the TaskBar's top image
+            TaskImage.color = GetComponentInParent<TaskBar>().Top.color;
+        }
     }
-    public void SetTaskCell(string n, string username, string c, DateTime d,Player p)
+
+    // Sets all task data at once
+    public void SetTaskCell(string n, string username, string c, DateTime d, Player p)
     {
-        SetTaskName(n); 
+        SetTaskName(n);
         SetUserName(username);
         SetContent(c);
         SetDate(d);
 
-        if(p != null)
-            SetPlayer(p); 
-        
+        // Only assign player if it's not null
+        if (p != null)
+            SetPlayer(p);
     }
 
+    // Opens a configurator/editor and passes this task to it
     public void ExportTaskCell()
     {
+        // Find all TaskConfigurator objects (even inactive ones)
         TaskConfigurator[] objs = Resources.FindObjectsOfTypeAll<TaskConfigurator>() as TaskConfigurator[];
+
+        // Activate the first configurator found
         objs[0].gameObject.SetActive(true);
+
+        // Send this task's data to the configurator
         FindObjectOfType<TaskConfigurator>().ImportTask(this);
     }
-     void SetTaskName(string n)
+
+    // Sets the task name in UI
+    void SetTaskName(string n)
     {
-        TaskName.text = n; 
+        TaskName.text = n;
     }
-     void SetUserName(string username)
+
+    // Sets the user name in UI
+    void SetUserName(string username)
     {
-        UserName.text = username; 
+        UserName.text = username;
     }
-     void SetContent(string C)
+
+    // Stores task content/description
+    void SetContent(string C)
     {
-        content = C; 
+        content = C;
     }
-     void SetDate(DateTime d)
+
+    // Stores task deadline
+    void SetDate(DateTime d)
     {
-        endDate = d; 
+        endDate = d;
     }
-    // Update is called once per frame
+
+    // Deletes this task object
     public void DestroyThis()
     {
         Destroy(gameObject);
     }
+
+    // Assigns a player to the task and updates UI
     void SetPlayer(Player player)
     {
         assignedPlayer = player;
+
+        // Update displayed username based on player data
         SetUserName(player.Name);
     }
-
 }
