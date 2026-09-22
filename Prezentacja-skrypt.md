@@ -10,9 +10,9 @@
 
 **[Patrz na publiczność, uśmiech]**
 
-Dzień dobry. Nazywam się [imię] i wraz z zespołem — Jarosławem Abramkiem oraz Michałem Budzyńskim — przedstawiamy projekt **Research Planner**, czyli system zarządzania projektami badawczymi.
+Dzień dobry. Nazywam się [imię] i przedstawiam projekt **Research Planner**, czyli system zarządzania projektami badawczymi.
 
-Projekt realizowaliśmy na Wyższej Szkole Administracji i Przedsiębiorczości w Lublinie pod opieką mgr Wojciecha Moniuszko. Ja pełniłem rolę kierownika projektu, Jarosław — analityka, a Michał — programisty.
+Projekt realizowaliśmy na Wyższej Szkole Administracji i Przedsiębiorczości w Lublinie pod opieką mgr Wojciecha Moniuszko, w dwóch częściach. W części pierwszej — analitycznej — kierownikiem był Piotr Kotarski, analitykiem Jarosław Abramek, a programistą Michał Budzyński. W części drugiej — implementacji prototypu — skład się zmienił: kierownikiem zespołu był Janusz Lejtan, analitykiem nadal Jarosław Abramek, programistą Artur Matuszewski, a dokumentalistą Piotr Kotarski.
 
 Przejdźmy do tego, dlaczego w ogóle powstał taki system.
 
@@ -85,7 +85,7 @@ Na podstawie analizy interesariuszy zdefiniowaliśmy wymagania funkcjonalne i ni
 
 **Wymagania niefunkcjonalne** to m.in.:
 
-- czas odpowiedzi systemu nie dłuższy niż 3 sekundy,
+- czas reakcji systemu poniżej 1 sekundy — według Analizy wymagań; Karta projektu podawała ogólniej do 3 sekund,
 - dostępność na poziomie 99 procent,
 - oraz możliwość obsługi wielu projektów i użytkowników jednocześnie.
 
@@ -115,9 +115,8 @@ W **dokumentacji projektowej** — w Karcie projektu — opisaliśmy docelową a
 
 W **zaimplementowanym prototypie** poszliśmy inną ścieżką technologiczną:
 
-- klient to aplikacja **Unity** w C#,
-- backend to skrypty **PHP** z bazą **MySQL**,
-- a klient działa jako aplikacja desktopowa.
+- klient to aplikacja **Unity** w C#, uruchamiana jako program desktopowy `.exe`,
+- w repozytorium są też skrypty **PHP** i schemat **MySQL** — ale to przykładowy kod z gotowego pakietu ASUPro, który nie został podłączony.
 
 Dlaczego? Unity pozwoliło nam szybko zbudować **interaktywny prototyp interfejsu** — drag and drop, panele, formularze — bez pisania całego frontendu od zera.
 
@@ -129,15 +128,14 @@ Prototyp **potwierdza koncepcję** systemu. Docelowa architektura webowa pozosta
 
 Co konkretnie udało się zaimplementować?
 
-Po stronie **klienta Unity** mamy:
+W działającej aplikacji mamy:
 
-- ekran logowania i rejestracji,
-- panel zarządzania zadaniami z paskami i listami,
-- edycję zadania — nazwa, opis, termin, przypisana osoba,
+- panel zarządzania zadaniami — paski etapów i karty zadań,
+- edycję zadania — tytuł, treść, przypisana osoba,
 - mechanizm **drag and drop** — przenoszenie zadań między paskami,
-- oraz listę członków zespołu.
+- jednego użytkownika demonstracyjnego do przypisywania zadań.
 
-Po stronie **backendu** — skrypty PHP obsługujące logowanie i rejestrację użytkownika oraz schemat bazy danych w pliku `asupro.sql`.
+Tylko w kodzie zostały: logowanie w `ASUPro_Core.cs` — aplikacja startuje bez ekranu logowania — oraz pole terminu zadania, którego nie ma jeszcze w edytorze. Skrypty PHP używają API `mysql_*` usuniętego w PHP 7 i nie mają skonfigurowanej bazy.
 
 To nie jest jeszcze pełny system opisany w wymaganiach — to **działający proof-of-concept** interfejsu użytkownika.
 
@@ -147,13 +145,11 @@ Za chwilę pokażemy to na żywo.
 
 ## SLIDE 9 — Przejście do DEMO (~30 s)
 
-**[Przełącz na Unity — nie czytaj długo]**
+**[Uruchom ResearchPlanner.exe — nie czytaj długo]**
 
-Przechodzimy teraz do **demonstracji na żywo**. Pokażemy prototyp interfejsu — logowanie, tworzenie zadań, przypisywanie osób i przenoszenie zadań między etapami projektu.
+Przechodzimy teraz do **demonstracji na żywo**. Pokażemy prototyp interfejsu — tworzenie etapów i zadań, przypisywanie osób i przenoszenie zadań między etapami projektu — a potem kod źródłowy.
 
 Scenariusz zajmie około 8 minut.
-
-**[Kliknij Play w Unity]**
 
 ---
 
@@ -161,58 +157,43 @@ Scenariusz zajmie około 8 minut.
 
 ### Krok 1 — Uruchomienie (30 s)
 
-Uruchamiamy prototyp interfejsu Research Planner w silniku Unity. To ta sama scena, nad którą pracowaliśmy podczas implementacji — `SampleScene`.
+Uruchamiamy prototyp Research Planner — to aplikacja zbudowana z projektu Unity. Od razu widzimy główną tablicę „TASKbar ORGANIZER 5000”.
 
-### Krok 2 — Logowanie (1 min)
+### Krok 2 — Etapy projektu (1 min)
 
-Na ekranie widzimy panel logowania. Wpisuję dane testowe: login **Janusz**, hasło **1234**.
+Klikam **ADD TASK BAR** dwa razy.
 
-System weryfikuje użytkownika i przenosi nas do głównego panelu aplikacji.
+Paski pojawiają się w losowych kolorach — to wizualna organizacja etapów lub kategorii prac w projekcie. Na przykład: przegląd literatury, badania terenowe, raport.
 
-W pełnej wersji systemu logowanie odbywa się przez backend PHP z bazą MySQL. W prototypie mamy też tryb demonstracyjny, który działa bez serwera — to ułatwia prezentację.
+### Krok 3 — Dodanie i edycja zadania (1,5 min)
 
-### Krok 3 — Członkowie zespołu (1 min)
+Na pasku klikam **NEW TASK**. Pojawia się karta — klikam w nią, aby otworzyć **edytor zadania**.
 
-Po zalogowaniu widzimy listę członków zespołu. W prototypie mamy domyślnego użytkownika Janusz — odpowiada to roli **Członek zespołu** z naszej analizy wymagań.
+Wpisuję krótki tytuł, np. **„Analiza”**, i opcjonalnie treść w polu Task Content.
 
-Każdy członek może być przypisany do konkretnych zadań w projekcie.
+To odpowiada wymaganiu **Kierownika projektu** — definiowanie struktury prac.
 
-### Krok 4 — Dodanie paska zadań (1 min)
+### Krok 4 — Przypisanie osoby (1 min)
 
-Klikam przycisk dodawania nowego paska zadań.
-
-Pasek pojawia się z losowym kolorem — to wizualna organizacja etapów lub kategorii prac w projekcie. Na przykład: „Etap 1 — Przegląd literatury”, „Etap 2 — Badania terenowe” i tak dalej.
-
-### Krok 5 — Dodanie i edycja zadania (1,5 min)
-
-Na nowym pasku dodaję zadanie. Klikam na nie, aby otworzyć **konfigurator**.
-
-Wypełniam przykładowe dane:
-- **Nazwa:** „Przegląd literatury”
-- **Opis:** „Analiza publikacji z ostatnich 5 lat na temat zarządzania projektami”
-- **Termin:** 15 marca 2026
-
-Zapisuję zmiany. Zadanie pojawia się na pasku z przypisanym terminem.
-
-To odpowiada wymaganiu **Kierownika projektu** — definiowanie struktury prac z harmonogramem.
-
-### Krok 6 — Przypisanie osoby (1 min)
-
-W konfiguratorze przypisuję użytkownika Janusz do tego zadania.
+Klikam **+** przy „Assign Person”, wybieram użytkownika **Janusz**, zamykam okno i zapisuję zadanie czerwoną dyskietką.
 
 Jego nazwa pojawia się na karcie zadania. To realizacja wymagania **Lidera zespołu** — delegowanie zadań konkretnym osobom.
 
-### Krok 7 — Drag & drop (1,5 min)
+### Krok 5 — Drag & drop (1,5 min)
 
-Dodaję drugi pasek zadań — np. „Etap 2 — Analiza danych”.
-
-Teraz **przeciągam** zadanie „Przegląd literatury” z pierwszego paska do drugiego.
+Teraz **przeciągam** kartę zadania z pierwszego paska na drugi. Karta przyjmuje kolor nowego etapu.
 
 To pokazuje elastyczność interfejsu — zadania można reorganizować między etapami projektu, np. gdy zmieniają się priorytety.
 
-**[Kliknij Stop w Unity]**
+**[Zamknij aplikację]**
 
-To była demonstracja prototypu. Wracamy do slajdów.
+### Krok 6 — Kod źródłowy (3 min)
+
+**[Otwórz `ZarzProj/Assets` w edytorze kodu]**
+
+`TaskBar.cs` tworzy paski i karty zadań. `TaskCell.cs` to model zadania. `TaskConfigurator.cs` wczytuje zadanie do edytora i zapisuje zmiany. `Dragme.cs` obsługuje przeciąganie — po puszczeniu karta przyczepia się do najbliższego paska.
+
+Wracamy do slajdów.
 
 ---
 
@@ -224,10 +205,10 @@ Aplikacja opiera się na kilku kluczowych komponentach w C#:
 
 - **Manager** — singleton zarządzający listą członków zespołu i przełączaniem paneli UI.
 - **TaskBar** — reprezentuje pasek zadań, odpowiednik etapu projektu.
-- **TaskCell** — model pojedynczego zadania z nazwą, opisem, terminem i przypisaną osobą.
+- **TaskCell** — model pojedynczego zadania z nazwą, opisem, przypisaną osobą i polem terminu.
 - **TaskConfigurator** — formularz edycji zadania, który właśnie widzieliście w demo.
 - **Dragme** — obsługuje przeciąganie zadań między listami.
-- **ASUPro_Core** — komunikacja z backendem PHP przy logowaniu i rejestracji.
+- **ASUPro_Core** — logowanie z gotowego pakietu ASUPro; w demo niewidoczne.
 
 Kod jest dostępny w repozytorium GitHub — `github.com/yomen519/res-planning`.
 
@@ -239,6 +220,7 @@ Będziemy szczerzy co do tego, czego **jeszcze nie zaimplementowaliśmy**.
 
 W prototypie brakuje:
 
+- **działającego logowania i backendu** — kod logowania jest, ale nie jest używany; PHP nie jest podłączone,
 - **zapisu danych** — zadania istnieją tylko w pamięci, po restarcie znikają,
 - **systemu ról** — pięć interesariuszy jest w dokumentacji, ale nie w kodzie,
 - **harmonogramu Gantta** i kamieni milowych,
@@ -264,9 +246,9 @@ Po pierwsze — **pełna analiza wymagań** z pięcioma rolami interesariuszy i 
 
 Po drugie — **zdefiniowany zakres funkcjonalny** — wiemy dokładnie, co system ma robić.
 
-Po trzecie — **działający prototyp interfejsu** — logowanie, zadania, drag and drop, przypisywanie osób.
+Po trzecie — **działający prototyp interfejsu** — etapy, zadania, drag and drop, przypisywanie osób.
 
-Po czwarte — **podstawa backendu** — autentykacja użytkowników w PHP i MySQL.
+Po czwarte — **kod źródłowy z komentarzami** dostępny w repozytorium.
 
 Research Planner to solidna **analiza biznesowa z proof-of-concept interfejsu**. Kolejny etap to rozbudowa backendu i modułów biznesowych zgodnie z dokumentacją.
 
@@ -310,11 +292,19 @@ W prototypie — nie. Zadania istnieją tylko w pamięci sesji. Zapis do bazy to
 
 ### „Czy system spełnia RODO?”
 
-Wymagania RODO są opisane w dokumentacji. W prototypie nie zaimplementowano jeszcze mechanizmów zgodności — to planowane na etap produkcyjny.
+Wymagania RODO są opisane w dokumentacji. W prototypie nie zaimplementowano jeszcze mechanizmów zgodności — przykładowe skrypty PHP zapisywałyby hasła jawnym tekstem, dlatego docelowy backend ma powstać od nowa.
+
+### „Gdzie jest logowanie?”
+
+Kod logowania jest w `ASUPro_Core.cs` — pochodzi z gotowego pakietu ASUPro. Zbudowana aplikacja startuje od razu na tablicy zadań, więc logowania w demo nie pokazujemy.
+
+### „Czy prowadziliście projekt w Scrumie?”
+
+W repozytorium nie ma dokumentacji Planning/Daily/Retro. Raport zamknięcia opisuje próby wprowadzenia sprintów (wiadomości z 29.03 i 22.04.2026 bez odpowiedzi) — to jedna z lekcji projektu.
 
 ### „Ile czasu zajęła implementacja?”
 
-Zgodnie z harmonogramem: analiza 2 tygodnie, projekt systemu 2 tygodnie, implementacja prototypu — około 5 tygodni pracy zespołu.
+Karta projektu planowała 11 tygodni: 4 tygodnie analizy i projektu, 5 tygodni implementacji, tydzień testów i tydzień odbioru. Część druga — prototyp — trwała od marca do czerwca 2026, ale przy niepełnym zespole (szczegóły w Raporcie zamknięcia).
 
 ### „Czy można to uruchomić na telefonie?”
 
@@ -322,7 +312,7 @@ Mobilna wersja natywna jest poza zakresem projektu — zapisane w Karcie projekt
 
 ### „Co było najtrudniejsze?”
 
-Po stronie analitycznej — doprecyzowanie wymagań dla pięciu różnych ról. Po stronie technicznej — implementacja drag and drop między dynamicznymi listami zadań w Unity.
+Po stronie analitycznej — doprecyzowanie wymagań dla pięciu różnych ról. Po stronie technicznej — implementacja drag and drop między dynamicznymi listami zadań w Unity. Organizacyjnie — utrzymanie komunikacji w zespole, co opisuje Raport zamknięcia.
 
 ---
 

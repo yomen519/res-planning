@@ -111,7 +111,7 @@ Dla każdego interesariusza zdefiniowaliśmy wymagania z oznaczeniem priorytetu 
 Oprócz funkcji biznesowych opisaliśmy też **dziewięć wymagań niefunkcjonalnych**, które określają jakość systemu:
 
 1. Dostępność 24/7  
-2. Czas reakcji poniżej 1 sekundy  
+2. Czas reakcji poniżej 1 sekundy (Karta projektu podawała ogólniej ≤ 3 s)  
 3. Szyfrowanie danych — TLS/SSL  
 4. Ochrona modułów finansowych przed nieautoryzowanym dostępem  
 5. Skalowalność — obsługa wielu projektów i użytkowników  
@@ -193,7 +193,7 @@ Jako analityk współtworzyłem tę dokumentację i dbałem o spójność międz
 
 ## PRZEJŚCIE DO CZĘŚCI II (~1 min)
 
-W **marcu 2026** rozpoczęła się druga część projektu. Skład zespołu uległ zmianie, a ze względu na ograniczenia organizacyjne podział ról został ustalony w innej konfiguracji niż w pierwszej fazie.
+W **marcu 2026** rozpoczęła się druga część projektu. Skład zespołu uległ zmianie, a ze względu na ograniczenia organizacyjne podział ról został ustalony w innej konfiguracji niż w pierwszej fazie. Według Raportu zamknięcia: **Janusz Lejtan** — kierownik zespołu, **Jarosław Abramek** — analityk, **Artur Matuszewski** — programista, **Piotr Kotarski** — dokumentalista.
 
 Ja pozostałem na stanowisku **analityka** — moim zadaniem było nadal doprecyzowywanie wymagań i wsparcie zespołu implementacyjnego. Główna praca programistyczna została podjęta w środowisku **Unity**, co było odstępstwem od pierwotnie planowanej architektury webowej.
 
@@ -209,9 +209,9 @@ W drugiej części powstał **działający prototyp interfejsu** w Unity 2022.3.
 
 | Wymaganie z analizy | Realizacja w prototypie | Ocena |
 |---------------------|-------------------------|-------|
-| Logowanie użytkownika | Panel logowania i rejestracji (ASUPro + PHP) | ✅ Częściowo |
+| Logowanie użytkownika | Kod logowania w `ASUPro_Core.cs` (gotowy pakiet ASUPro); zbudowana aplikacja startuje bez ekranu logowania | ⚠️ Tylko w kodzie |
 | Zarządzanie strukturą prac | Paski zadań + karty zadań | ✅ Prototyp UI |
-| Planowanie czasowe | Termin zadania w konfiguratorze | ✅ Prototyp UI |
+| Planowanie czasowe | Pole `endDate` w modelu zadania, brak pola daty w edytorze | ⚠️ Tylko w modelu |
 | Delegowanie zadań | Przypisanie osoby do zadania | ✅ Działa |
 | Formowanie zespołów | Lista członków zespołu | ⚠️ Tylko demo (1 użytkownik) |
 | Reorganizacja zadań | Drag & drop między paskami | ✅ Działa |
@@ -220,7 +220,7 @@ W drugiej części powstał **działający prototyp interfejsu** w Unity 2022.3.
 | Harmonogram Gantta | — | ❌ Brak |
 | Raportowanie | — | ❌ Brak |
 | Role i uprawnienia | — | ❌ Brak |
-| Zapis danych do bazy | Tylko użytkownicy (PHP) | ⚠️ Zadania bez persystencji |
+| Zapis danych do bazy | Skrypty PHP + schemat `asupro.sql` (tylko tabela użytkowników), niepodłączone | ❌ Brak persystencji |
 
 **Wnioski analityczne:**
 
@@ -234,12 +234,14 @@ To nie znaczy, że analiza była zbędna — przeciwnie, prototyp UI **potwierdz
 
 Jako analityk współpracowałem z programistą przy mapowaniu wymagań na komponenty systemu. W prototypie wyróżniamy:
 
-- **Manager** — zarządza listą członków zespołu i przełączaniem paneli,
+- **Manager** — zarządza listą członków zespołu (w prototypie jeden użytkownik demo „Janusz”) i przełączaniem paneli,
 - **TaskBar** — reprezentuje etap lub kategorię prac w projekcie,
-- **TaskCell** — pojedyncze zadanie z nazwą, opisem, terminem i przypisaną osobą,
+- **TaskCell** — pojedyncze zadanie z nazwą, opisem, przypisaną osobą i polem terminu (termin jest w modelu, ale nie w interfejsie),
 - **TaskConfigurator** — formularz edycji zadania,
 - **Dragme** — mechanizm przenoszenia zadań między etapami,
-- **ASUPro_Core** — logowanie i komunikacja z backendem PHP.
+- **ASUPro_Core** — logowanie; pochodzi z gotowego pakietu ASUPro, podobnie jak skrypty PHP.
+
+Uczciwie o backendzie: skrypty `Login.php` i `Register.php` to przykładowy kod z pakietu (w nagłówku „CREATED BY JAKE”). Używają API `mysql_*`, które usunięto w PHP 7, a `Config.php` jest pusty — backend nie jest podłączony. Z perspektywy wymagań RODO i TLS to istotna luka: hasła są zapisywane jawnym tekstem.
 
 W kodzie z kwietnia 2026 dodano **komentarze dokumentujące** logikę tych komponentów — to ułatwia dalszą analizę i rozwój systemu.
 
@@ -249,72 +251,61 @@ Warto też zaznaczyć: pliki `GetScores.cs` i `InsertScore.cs` to **szkielet kom
 
 ## CZĘŚĆ II — DEMO NA ŻYWO (~8 min)
 
-**[Przełącz na Unity — SampleScene.unity]**
+**[Uruchom `ResearchPlanner.exe` — szczegóły w `Demo-checklist.md`]**
 
 Teraz pokażę, jak wygląda prototyp w praktyce. Będę komentować go przez pryzmat wymagań, które sami zdefiniowaliśmy.
 
 ---
 
-**Krok 1 — Logowanie**
+**Krok 1 — Tablica zadań**
 
-Uruchamiam aplikację. Widzimy panel logowania — to realizacja podstawowego wymagania autentykacji użytkownika.
-
-Wpisuję dane testowe: login **Janusz**, hasło **1234**.
-
-System przenosi nas do głównego panelu. W pełnej wersji logowanie odbywałoby się przez backend PHP z bazą MySQL. W prototypie mamy też tryb demonstracyjny ułatwiający prezentację.
+Uruchamiam aplikację. Od razu widzimy główną tablicę — „TASKbar ORGANIZER 5000”. Ekranu logowania w zbudowanej wersji nie ma: kod logowania istnieje w `ASUPro_Core.cs`, ale prototyp startuje bezpośrednio na tablicy.
 
 ---
 
-**Krok 2 — Członkowie zespołu**
+**Krok 2 — Paski zadań**
 
-Po lewej stronie widzimy listę członków zespołu. W prototypie jest jeden użytkownik — Janusz.
-
-Z perspektywy analizy to odpowiada wymaganiu Lidera zespołu: *„formowanie zespołów i przypisywanie pracowników”*. W pełnej wersji systemu byłaby tu baza pracowników z filtrowaniem po kompetencjach — tak jak opisaliśmy w przypadku użycia „Dodawanie członków zespołów”.
-
----
-
-**Krok 3 — Paski zadań**
-
-Dodaję nowy pasek zadań. Każdy pasek ma inny kolor — to wizualna reprezentacja **etapu projektu**.
+Klikam **ADD TASK BAR** dwa razy. Każdy pasek ma inny kolor — to wizualna reprezentacja **etapu projektu**.
 
 W naszej analizie Kierownik projektu definiuje strukturę prac i przypisuje zadania do etapów harmonogramu. Paski zadań w prototypie są właśnie taką strukturą — uproszczoną, ale zgodną z modelem procesów.
 
 ---
 
-**Krok 4 — Tworzenie i edycja zadania**
+**Krok 3 — Tworzenie i edycja zadania**
 
-Dodaję zadanie i otwieram konfigurator.
+Klikam **NEW TASK** — pojawia się karta. Klikam w nią i otwiera się edytor zadania.
 
-Wypełniam:
-- **Nazwa:** „Przegląd literatury”
-- **Opis:** „Analiza publikacji z ostatnich 5 lat”
-- **Termin:** 15 marca 2026
+Wpisuję krótki tytuł, np. **„Analiza”**, i opcjonalnie treść w polu Task Content.
 
-Zapisuję. To realizuje wymaganie *„zarządzanie strukturą prac”* i *„planowanie czasowe”* — w wersji prototypowej, bez zapisu do bazy.
+To realizuje wymaganie *„zarządzanie strukturą prac”* — w wersji prototypowej, bez zapisu do bazy. Wymaganie *„planowanie czasowe”* jest przygotowane tylko w modelu danych: zadanie ma pole terminu, ale w edytorze nie ma jeszcze pola daty.
 
 ---
 
-**Krok 5 — Delegowanie zadania**
+**Krok 4 — Delegowanie zadania**
 
-Przypisuję zadanie do użytkownika Janusz.
+Klikam **+** przy „Assign Person”, wybieram **Janusz**, zamykam okno i zapisuję czerwoną dyskietką.
 
-Na karcie zadania pojawia się jego nazwa. To odpowiada przypadkowi użycia Lidera zespołu: *„Zarządzanie strukturą prac i delegowanie zadań”*. W pełnym systemie po tej operacji wysłalibyśmy automatyczne powiadomienie do pracownika — to mamy opisane w scenariuszu, ale jeszcze nie zaimplementowane.
+Na karcie zadania pojawia się jego nazwa. To odpowiada przypadkowi użycia Lidera zespołu: *„Zarządzanie strukturą prac i delegowanie zadań”*. W prototypie jest jeden użytkownik demo — w pełnej wersji byłaby tu baza pracowników, tak jak opisaliśmy w przypadku użycia „Dodawanie członków zespołów”. Po przypisaniu system wysyłałby też powiadomienie — to mamy w scenariuszu, ale nie w kodzie.
 
 ---
 
-**Krok 6 — Drag & drop**
+**Krok 5 — Drag & drop**
 
-Tworzę drugi pasek — np. „Etap 2 — Analiza danych”.
-
-Przeciągam zadanie z pierwszego paska do drugiego. Zadanie zmienia etap projektu.
+Przeciągam kartę zadania na drugi pasek. Zadanie zmienia etap projektu i przyjmuje kolor nowego paska.
 
 To pokazuje elastyczność interfejsu — Kierownik lub Lider może reorganizować prace, gdy zmieniają się priorytety. W analizie opisaliśmy podobną logikę przy przypisywaniu zadań do etapów harmonogramu.
 
 ---
 
-**[Stop w Unity]**
+**[Zamknij aplikację]**
 
 To była demonstracja prototypu. Jak widać, pokrywa on **wąski fragment** naszej pełnej specyfikacji — głównie moduł zadań i delegowania. Reszta wymagań pozostaje do implementacji.
+
+---
+
+**[Pokaz kodu — `ZarzProj/Assets` w edytorze kodu, 3–5 min]**
+
+Na koniec krótko kod źródłowy. `TaskBar.cs` tworzy paski i karty zadań. `TaskCell.cs` to model zadania — widać pola treści, terminu i przypisanej osoby. `TaskConfigurator.cs` wczytuje zadanie do edytora i zapisuje zmiany. `Dragme.cs` odpowiada za przeciąganie — po puszczeniu karta przyczepia się do najbliższego paska. Pełna lista plików w `Demo-checklist.md`.
 
 ---
 
@@ -349,14 +340,14 @@ Te wnioski są równie ważne jak sama analiza wymagań.
 - Zidentyfikowaliśmy **5 interesariuszy** z różnymi potrzebami,
 - Opisaliśmy **ponad 20 wymagań funkcjonalnych** i **9 wymagań niefunkcjonalnych**,
 - Opracowaliśmy **szczegółowe przypadki użycia** dla trzech ról: Opiekuna, Kierownika i Lidera,
-- Stworzyliśmy **cztery diagramy UML** przypadków użycia,
+- Stworzyliśmy **diagramy UML** przypadków użycia dla trzech ról,
 - Spisaliśmy **Kartę projektu** z zakresem, harmonogramem i kryteriami sukcesu.
 
 To solidna podstawa do budowy pełnego systemu Research Planner.
 
 ### Część II — prototyp
 
-- Powstał **działający prototyp UI** w Unity — logowanie, zadania, delegowanie, drag & drop,
+- Powstał **działający prototyp UI** w Unity — etapy, zadania, delegowanie, drag & drop,
 - Potwierdzono **sensowność koncepcji** pasków zadań i przypisywania osób,
 - Zidentyfikowano **luki** — brak modułów finansowych, raportowania, ról, persystencji zadań,
 - Sporządzono **raport zamknięcia** z wnioskami organizacyjnymi.
@@ -387,6 +378,18 @@ Częściowo. Prototyp pokrywa moduł zadań i delegowania. Moduły finansowe, ra
 
 **„Dlaczego Unity zamiast React?”**  
 To decyzja zespołu implementacyjnego w drugiej fazie — Unity pozwoliło szybko zbudować interaktywny prototyp. Z perspektywy analityka docelowa architektura webowa z Karty projektu pozostaje aktualna.
+
+**„Gdzie jest logowanie?”**  
+Kod logowania jest w `ASUPro_Core.cs` — pochodzi z gotowego pakietu ASUPro i ma wpisany na sztywno użytkownik testowy. Zbudowana aplikacja startuje od razu na tablicy zadań, więc logowania w demo nie pokazujemy.
+
+**„Czy backend działa?”**  
+Nie. Skrypty PHP to przykładowy kod z pakietu — używają API `mysql_*`, usuniętego w PHP 7, a konfiguracja bazy (`Config.php`) jest pusta. Hasła byłyby zapisywane jawnym tekstem, co jest sprzeczne z naszymi wymaganiami RODO i szyfrowania. Docelowy backend według Karty projektu to Spring Boot.
+
+**„Czy dane są zapisywane?”**  
+Nie — zadania istnieją tylko w pamięci aplikacji i znikają po jej zamknięciu.
+
+**„Czy prowadziliście projekt w Scrumie — Planning, Daily, Retro?”**  
+W repozytorium nie ma takiej dokumentacji. Raport zamknięcia opisuje próby wprowadzenia sprintów — wiadomości do zespołu z 29.03 i 22.04.2026 pozostały bez odpowiedzi. To jedna z głównych lekcji projektu: bez regularnej komunikacji proces zwinny nie ruszył.
 
 **„Co byłoby następnym krokiem?”**  
 1. Uzupełnienie przypadków użycia dla Księgowej i Członka zespołu,  

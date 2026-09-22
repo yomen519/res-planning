@@ -18,13 +18,19 @@ System zarządzania projektami badawczymi
 ```
 Wyższa Szkoła Administracji i Przedsiębiorczości w Lublinie
 
-Zespół projektowy:
+Część I — analiza (paź 2025 – sty 2026):
 • Piotr Kotarski — Kierownik projektu
 • Jarosław Abramek — Analityk
 • Michał Budzyński — Programista
 
+Część II — prototyp (mar – cze 2026):
+• Janusz Lejtan — Kierownik zespołu
+• Jarosław Abramek — Analityk
+• Artur Matuszewski — Programista
+• Piotr Kotarski — Dokumentalista
+
 Prowadzący: mgr Wojciech Moniuszko
-Październik 2025
+23 września 2026
 ```
 
 ### Układ
@@ -148,7 +154,7 @@ Moduły funkcjonalne:
 • Komunikacja wewnętrzna i powiadomienia
 
 Wymagania niefunkcjonalne:
-• Czas odpowiedzi systemu ≤ 3 sekundy
+• Czas reakcji systemu poniżej 1 sekundy
 • Dostępność usługi: 99%
 • Obsługa wielu projektów i użytkowników jednocześnie
 ```
@@ -202,8 +208,8 @@ Architektura docelowa vs zaimplementowany prototyp
 │ Warstwa  │ Docelowo (dokumentacja) │ Zaimplementowano (prototyp) │
 ├──────────┼─────────────────────────┼─────────────────────────────┤
 │ Frontend │ React, TypeScript       │ Unity 2022.3 (C#, uGUI)     │
-│ Backend  │ Java, Spring Boot       │ PHP (Login, Register)       │
-│ Baza     │ PostgreSQL              │ MySQL (tabela użytkowników) │
+│ Backend  │ Java, Spring Boot       │ PHP — przykład, niepodłącz. │
+│ Baza     │ PostgreSQL              │ Schemat MySQL (użytkownicy) │
 │ Klient   │ Przeglądarka www        │ Aplikacja desktop (Unity)   │
 └──────────┴─────────────────────────┴─────────────────────────────┘
 
@@ -226,16 +232,16 @@ Co zostało zaimplementowane?
 
 ### Treść slajdu
 ```
-Prototyp Unity (klient):
-✓ Ekran logowania i rejestracji
-✓ Panel zarządzania zadaniami (paski + lista zadań)
-✓ Edycja zadania: nazwa, opis, termin, przypisana osoba
+Działa (aplikacja .exe):
+✓ Paski etapów projektu
+✓ Tworzenie i edycja zadań: tytuł, treść
+✓ Przypisanie osoby do zadania
 ✓ Drag & drop — przenoszenie zadań między paskami
-✓ Lista członków zespołu
 
-Backend (PHP + MySQL):
-✓ Logowanie i rejestracja użytkownika
-✓ Schemat bazy danych (asupro.sql)
+Tylko w kodzie / niepodłączone:
+⚠ Logowanie (ASUPro_Core) — aplikacja startuje bez niego
+⚠ Termin zadania — pole w modelu, brak w edytorze
+⚠ Skrypty PHP + schemat MySQL — przykładowy pakiet
 ```
 
 ### Układ
@@ -253,15 +259,14 @@ Demonstracja na żywo — prototyp interfejsu
 
 ### Treść slajdu
 ```
-Scenariusz demo (~8 min):
+Scenariusz demo (~5 min) + kod (~3 min):
 
-1. Uruchomienie aplikacji (Unity)
-2. Logowanie użytkownika
-3. Widok członków zespołu
-4. Dodanie paska zadań
-5. Utworzenie i edycja zadania
-6. Przypisanie osoby do zadania
-7. Przeniesienie zadania między paskami (drag & drop)
+1. Uruchomienie aplikacji (ResearchPlanner.exe)
+2. Dodanie etapów (ADD TASK BAR)
+3. Utworzenie i edycja zadania (NEW TASK)
+4. Przypisanie osoby do zadania
+5. Przeniesienie zadania między etapami (drag & drop)
+6. Kod źródłowy — kluczowe klasy C#
 
 → Przechodzimy do demonstracji na żywo
 ```
@@ -269,7 +274,7 @@ Scenariusz demo (~8 min):
 ### Układ
 - Lista numerowana, duża czcionka
 - Tło może być ciemniejsze — sygnał przejścia do demo
-- **Po tym slajdzie: przełącz na Unity, nie czytaj dalej slajdów**
+- **Po tym slajdzie: uruchom ResearchPlanner.exe, nie czytaj dalej slajdów**
 
 ---
 
@@ -290,7 +295,7 @@ Architektura kodu — kluczowe komponenty
 │ TaskCell         │ TaskCell.cs         │ Model pojedynczego zadania │
 │ TaskConfigurator │ TaskConfigurator.cs │ Formularz edycji zadania   │
 │ Dragme           │ Dragme.cs           │ Przeciąganie zadań         │
-│ ASUPro_Core      │ ASUPro_Core.cs      │ Logowanie, komunikacja PHP │
+│ ASUPro_Core      │ ASUPro_Core.cs      │ Logowanie (gotowy pakiet)  │
 └──────────────────┴─────────────────────┴────────────────────────────┘
 ```
 
@@ -310,6 +315,7 @@ Luki implementacyjne i dalszy rozwój
 ### Treść slajdu
 ```
 Niezaimplementowane w prototypie:
+• Działające logowanie i backend
 • Persystencja zadań i projektów (brak zapisu do bazy)
 • Role i uprawnienia (5 interesariuszy)
 • Harmonogram Gantta, kamienie milowe
@@ -341,8 +347,8 @@ Podsumowanie
 Osiągnięcia projektu:
 • Pełna analiza wymagań i model UML
 • Zdefiniowane role, procesy i zakres funkcjonalny
-• Działający prototyp UI zarządzania zadaniami
-• Podstawa backendu (autentykacja użytkowników)
+• Działający prototyp UI zarządzania zadaniami (.exe)
+• Kod źródłowy z komentarzami w repozytorium GitHub
 
 Wnioski:
 Research Planner to solidna analiza biznesowa

@@ -1,7 +1,7 @@
 # Research Planner — outline prezentacji (~30 min)
 
 > Materiał do obrony / prezentacji projektu.  
-> Repo: `res-planning` | Demo: Unity `ZarzProj` | Login demo: `Janusz` / `1234`
+> Repo: `res-planning` | Demo: `ResearchPlanner.exe` (build Unity `ZarzProj`) — startuje bez logowania, patrz `Demo-checklist.md`
 
 ---
 
@@ -11,9 +11,10 @@
 System zarządzania projektami badawczymi
 
 - Wyższa Szkoła Administracji i Przedsiębiorczości w Lublinie
-- Zespół: Piotr Kotarski, Jarosław Abramek, Michał Budzyński
+- Część I (analiza): Piotr Kotarski — kierownik, Jarosław Abramek — analityk, Michał Budzyński — programista
+- Część II (prototyp, wg Raportu zamknięcia): Janusz Lejtan — kierownik, Jarosław Abramek — analityk, Artur Matuszewski — programista, Piotr Kotarski — dokumentalista
 - Prowadzący: mgr Wojciech Moniuszko
-- Data: październik 2025
+- Data: 23 września 2026
 
 ---
 
@@ -74,7 +75,7 @@ System zarządzania projektami badawczymi
 
 **Wymagania niefunkcjonalne:**
 
-- Czas odpowiedzi ≤ 3 s
+- Czas reakcji < 1 s (Analiza wymagań; Karta projektu podawała ogólnie ≤ 3 s)
 - Dostępność 99%
 - Obsługa wielu projektów i użytkowników jednocześnie
 
@@ -101,8 +102,8 @@ System zarządzania projektami badawczymi
 | Warstwa | Docelowo (dokumentacja) | Zaimplementowano (repo) |
 |---------|-------------------------|-------------------------|
 | Frontend | React, TypeScript, CSS3 | Unity 2022.3 (C#, uGUI) |
-| Backend | Java, Spring Boot | PHP (`Login.php`, `Register.php`) |
-| Baza | PostgreSQL | MySQL — tabela użytkowników |
+| Backend | Java, Spring Boot | Przykładowe skrypty PHP z pakietu ASUPro — niepodłączone |
+| Baza | PostgreSQL | Schemat MySQL (`asupro.sql`) — tylko tabela użytkowników |
 | Klient | Przeglądarka | Aplikacja desktop (Unity) |
 
 **Komunikat:** prototyp UI potwierdza koncepcję; docelowa architektura webowa pozostaje w planie rozwoju
@@ -111,32 +112,31 @@ System zarządzania projektami badawczymi
 
 ## Slajd 8 — Co zostało zaimplementowane
 
-**Działający prototyp (Unity):**
+**Działający prototyp (Unity, uruchamiany jako `.exe`):**
 
-- Ekran logowania i rejestracji
-- Panel zarządzania zadaniami (paski + lista zadań)
-- Edycja zadania: nazwa, opis, termin, przypisana osoba
+- Panel zarządzania zadaniami (paski etapów + karty zadań)
+- Edycja zadania: tytuł, treść, przypisana osoba
 - Drag & drop — przenoszenie zadań między paskami
-- Lista członków zespołu (demo)
+- Jeden użytkownik demo („Janusz”)
 
-**Backend:**
+**Tylko w kodzie / niepodłączone:**
 
-- Logowanie i rejestracja użytkownika (PHP + MySQL)
-- Schemat bazy: `asupro.sql`
+- Logowanie (`ASUPro_Core.cs`) — aplikacja startuje bez ekranu logowania
+- Termin zadania — pole w modelu, brak w edytorze
+- Skrypty PHP i schemat `asupro.sql` — przykładowy pakiet, API `mysql_*` usunięte w PHP 7
 
 ---
 
 ## Slajd 9 — LIVE DEMO (scenariusz)
 
-**Kroki na żywo (~8 min):**
+**Kroki na żywo (~5 min) + kod (~3 min):**
 
-1. Uruchomienie `SampleScene.unity` w Unity
-2. Logowanie: `Janusz` / `1234`
-3. Widok członków zespołu
-4. Dodanie nowego paska zadań
-5. Dodanie i edycja zadania w konfiguratorze
-6. Przypisanie osoby do zadania
-7. Przeciągnięcie zadania między paskami
+1. Uruchomienie `ResearchPlanner.exe` — tablica „TASKbar ORGANIZER 5000”
+2. **ADD TASK BAR** ×2 — dwa etapy
+3. **NEW TASK** → klik w kartę → edytor zadania (krótki tytuł)
+4. Przypisanie osoby: **+** → Janusz → zapis (dyskietka)
+5. Przeciągnięcie zadania między paskami
+6. Pokaz kodu źródłowego (`TaskBar.cs`, `TaskCell.cs`, `TaskConfigurator.cs`, `Dragme.cs`)
 
 **Co pokazujemy:** koncepcję interfejsu do planowania pracy zespołu
 
@@ -151,7 +151,7 @@ System zarządzania projektami badawczymi
 | TaskCell | `TaskCell.cs` | Model pojedynczego zadania |
 | TaskConfigurator | `TaskConfigurator.cs` | Formularz edycji zadania |
 | Dragme | `Dragme.cs` | Przeciąganie zadań między listami |
-| ASUPro_Core | `ASUPro_Core.cs` | Logowanie, komunikacja z PHP |
+| ASUPro_Core | `ASUPro_Core.cs` | Logowanie z gotowego pakietu ASUPro (niewidoczne w demo) |
 
 ---
 
@@ -180,8 +180,8 @@ System zarządzania projektami badawczymi
 
 - Pełna analiza wymagań i model UML
 - Zdefiniowane role, procesy i zakres funkcjonalny
-- Działający prototyp UI zarządzania zadaniami
-- Podstawa backendu (autentykacja użytkowników)
+- Działający prototyp UI zarządzania zadaniami (`.exe`)
+- Kod źródłowy z komentarzami w repozytorium GitHub
 
 **Wnioski:**
 
@@ -218,6 +218,6 @@ Kolejny etap to rozbudowa backendu i modułów biznesowych zgodnie z dokumentacj
 ## Wskazówki dla prowadzącego prezentację
 
 - **Slajdy 1–7:** mów spokojnie, opieraj się na dokumentacji — to mocna strona
-- **Slajd 9 (demo):** przećwicz wcześniej według `Demo-checklist.md`
+- **Slajd 9 (demo):** przećwicz wcześniej według `Demo-checklist.md` — nie zapowiadaj logowania ani terminu zadania
 - **Slajd 11:** bądź uczciwy — lepiej pokazać świadomość luk niż udawać pełny produkt
 - **Czas:** 30 min = ~22 min mowa + 8 min demo; zostaw 2–3 min na pytania

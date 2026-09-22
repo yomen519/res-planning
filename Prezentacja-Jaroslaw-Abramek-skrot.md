@@ -61,16 +61,17 @@ Planowana architektura: **React + TypeScript**, **Java + Spring Boot**, **Postgr
 
 ### Co powstało
 
-W marcu 2026 ruszyła implementacja w **Unity**. Skład zespołu się zmienił, ja zostałem analitykiem.
+W marcu 2026 ruszyła implementacja w **Unity**. Skład zespołu się zmienił (wg Raportu zamknięcia: Janusz Lejtan — kierownik, Artur Matuszewski — programista, Piotr Kotarski — dokumentalista), ja zostałem analitykiem.
 
 **Zaimplementowano (prototyp UI):**
-- logowanie użytkownika,
 - paski zadań = etapy projektu,
-- tworzenie i edycja zadań (nazwa, opis, termin),
+- tworzenie i edycja zadań (tytuł, treść),
 - przypisanie osoby do zadania,
 - drag & drop między etapami.
 
 **Nie zaimplementowano:**
+- logowanie w działającej aplikacji (kod jest, ale aplikacja startuje bez niego), backend PHP niepodłączony,
+- pole terminu w edytorze (termin jest tylko w modelu danych),
 - moduł finansowy, raportowanie, Gantt,
 - role i uprawnienia (5 interesariuszy),
 - zapis zadań do bazy,
@@ -82,7 +83,7 @@ W marcu 2026 ruszyła implementacja w **Unity**. Skład zespołu się zmienił, 
 |-----------|----------|
 | Zarządzanie zadaniami | ✅ |
 | Delegowanie zadań | ✅ |
-| Planowanie czasowe (termin) | ✅ |
+| Planowanie czasowe (termin) | ⚠️ tylko w modelu |
 | Formowanie zespołów | ⚠️ demo |
 | Budżet, raporty, nadzór | ❌ |
 
@@ -94,18 +95,18 @@ Projekt zakończony przed wdrożeniem. Przyczyny: **problemy komunikacyjne**, od
 
 ---
 
-## DEMO (5 min) — opcjonalnie
+## DEMO (5 min) + KOD (3 min)
 
-**[Unity → SampleScene → Play]**
+**[Uruchom `ResearchPlanner.exe` — aplikacja startuje od razu na tablicy zadań]**
 
-1. Login: **Janusz** / **1234**
-2. Pasek zadań → dodaj zadanie „Przegląd literatury”, termin 15.03.2026
-3. Przypisz użytkownika Janusz
-4. Przeciągnij zadanie na drugi pasek
+1. **ADD TASK BAR** ×2 — dwa etapy
+2. **NEW TASK** → kliknij kartę → tytuł „Analiza”
+3. **+** przy „Assign Person” → **Janusz** → X → czerwona dyskietka (zapis)
+4. Przeciągnij kartę na drugi pasek
 
 *„To realizacja wymagań Kierownika — struktura prac — i Lidera — delegowanie zadań. Reszta specyfikacji czeka na implementację.”*
 
-**[Stop]**
+**[Zamknij aplikację → pokaż kod: `TaskBar.cs`, `TaskCell.cs`, `TaskConfigurator.cs`, `Dragme.cs`]**
 
 ---
 
@@ -117,7 +118,7 @@ Projekt zakończony przed wdrożeniem. Przyczyny: **problemy komunikacyjne**, od
 - Karta projektu z zakresem i architekturą docelową.
 
 **Część II — osiągnięcia:**
-- działający prototyp UI zadań,
+- działający prototyp UI zadań (uruchamiany jako `.exe`),
 - potwierdzenie koncepcji pasków i delegowania,
 - raport zamknięcia z wnioskami.
 
@@ -136,11 +137,11 @@ CZĘŚĆ I (paź 2025 – sty 2026)
 • Plan: React + Java + PostgreSQL
 
 CZĘŚĆ II (mar – cze 2026)
-• Unity: zadania, login, drag & drop
-• Brak: budżet, raporty, role, zapis DB
+• Unity: etapy, zadania, delegowanie, drag & drop
+• Brak: login (tylko w kodzie), backend, zapis DB, budżet, raporty, role
 • Status: prototyp, nie wdrożony
 
-DEMO: Janusz / 1234 → zadanie → deleguj → drag
+DEMO: .exe → ADD TASK BAR → NEW TASK → Janusz → drag → kod
 
 JA (analityk): wymagania, UML, mapowanie na kod
 ```

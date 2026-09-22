@@ -1,101 +1,99 @@
 # Checklist przygotowania demo — Research Planner
 
-> Demo Unity bez serwera PHP. Login: **Janusz** / **1234**  
-> Szacowany czas demo na żywo: **8 minut**
+> Prezentacja gotowej aplikacji: **pokazać, że działa** + **pokazać kod źródłowy** + pytania z sali.  
+> Szacowany czas demo na żywo: **5–8 minut** + pokaz kodu **3–5 minut**
 
 ---
 
-## Tydzień przed prezentacją
+## Jak uruchomić aplikację
 
-- [ ] Zainstaluj **Unity Hub** i edytor **Unity 2022.3.62f3** (lub najbliższą wersję 2022.3 LTS)
-- [ ] Sklonuj / otwórz projekt: `C:\Users\konra\projects\res-planning\ZarzProj`
-- [ ] Pierwsze otwarcie — poczekaj na import assetów (może potrwać 5–15 min)
-- [ ] Uruchom scenę `Assets/Scenes/SampleScene.unity` i sprawdź, czy projekt się kompiluje
-- [ ] Przećwicz pełny scenariusz demo minimum **3 razy**
-- [ ] Zrób nagranie ekranu (backup) na wypadek problemów technicznych
+**Opcja A — gotowy plik `.exe` (zalecana na prezentację)**
+
+Aplikacja zbudowana z Unity 2022.3.62f3 jako program dla Windows (ok. 74 MB):
+
+```
+ResearchPlanner-exe\ResearchPlanner.exe   ← dwuklik
+```
+
+- Kopiuj **cały folder** `ResearchPlanner-exe` (razem z `ResearchPlanner_Data`, `UnityPlayer.dll`, `MonoBleedingEdge`) — sam plik `.exe` nie zadziała.
+- Nie wymaga instalacji Unity ani internetu.
+- Plik `.exe` **nie jest w repozytorium** (`.gitignore` wyklucza buildy). Budowanie: Unity 2022.3.62f3 → `File → Build Settings` → scena `Assets/Scenes/SampleScene.unity` → `Build`.
+
+**Opcja B — edytor Unity (zapasowa)**
+
+1. Unity Hub → `Add project from disk` → folder `ZarzProj` (edytor **2022.3.62f3** — nie otwieraj w Unity 6, bo zaproponuje upgrade projektu)
+2. `Assets/Scenes/SampleScene.unity` → dwuklik
+3. **Play ▶** → zakładka **Game**
 
 ---
 
 ## Dzień przed prezentacją
 
-- [ ] Uruchom demo jeszcze raz na **tym samym komputerze**, na którym będzie prezentacja
-- [ ] Sprawdź rozdzielczość ekranu — Unity Game View ustaw na **1920×1080** lub Full HD
-- [ ] Zamknij zbędne aplikacje (Discord, przeglądarka z wieloma kartami)
+- [ ] Uruchom `ResearchPlanner.exe` na **tym samym komputerze**, na którym będzie prezentacja
+- [ ] Przejdź pełny scenariusz demo **2–3 razy**
+- [ ] Nagraj demo jako backup (Windows: **Win + Alt + R** — nagrywanie ekranu Xbox Game Bar)
+- [ ] Otwórz w Cursorze / VS Code folder `ZarzProj/Assets/Scripts` — do pokazu kodu
 - [ ] Wyłącz powiadomienia systemowe (Windows: Tryb skupienia)
 - [ ] Naładuj laptop / podłącz zasilanie
-- [ ] Przygotuj kopię zapasową: nagranie wideo lub zrzuty ekranu kluczowych kroków
-
----
-
-## Godzinę przed prezentacją
-
-- [ ] Otwórz Unity z projektem `ZarzProj`
-- [ ] Otwórz scenę: `Assets/Scenes/SampleScene.unity`
-- [ ] Kliknij **Play** i zaloguj się (`Janusz` / `1234`) — potwierdź, że działa
-- [ ] Kliknij **Stop** — zostaw Unity otwarte, scenę załadowaną
-- [ ] Przygotuj w drugim oknie (lub na drugim monitorze):
-  - `AnalizaWymagan.md` — do slajdów o wymaganiach
-  - `diagramy/aktor-opiekun.png` — diagram UML
-- [ ] Sprawdź kabel HDMI / adapter do projektora
 
 ---
 
 ## Scenariusz demo krok po kroku
 
+> Aplikacja startuje **od razu na tablicy zadań** „TASKbar ORGANIZER 5000” — **nie ma ekranu logowania** w zbudowanej wersji.
+
 ### Krok 1 — Uruchomienie (30 s)
 
-1. W Unity upewnij się, że aktywna jest scena `SampleScene`
-2. Kliknij przycisk **Play** (trójkąt u góry)
-3. Powiedz: *„Uruchamiamy prototyp interfejsu Research Planner”*
+1. Dwuklik `ResearchPlanner.exe` — okno „Research Planner”
+2. Powiedz: *„To prototyp interfejsu Research Planner — tablica etapów i zadań projektu.”*
 
-### Krok 2 — Logowanie (1 min)
+### Krok 2 — Etapy projektu (1 min)
 
-1. Na ekranie logowania wpisz:
-   - Login: `Janusz`
-   - Hasło: `1234`
-2. Kliknij przycisk logowania
-3. Powiedz: *„System weryfikuje użytkownika — w prototypie mamy też integrację z backendem PHP”*
+1. Kliknij **ADD TASK BAR** (lewy górny róg) — **dwa razy**
+2. Pojawiają się dwa paski w losowych kolorach
+3. Powiedz: *„Paski reprezentują etapy projektu — np. analiza, badania, raport.”*
 
-> **Uwaga:** Login `Janusz`/`1234` działa **bez serwera** (bypass w `ASUPro_Core.cs`). Nie próbuj innych kont bez skonfigurowanego PHP.
+### Krok 3 — Nowe zadanie (1,5 min)
 
-### Krok 3 — Członkowie zespołu (1 min)
+1. Na pasku kliknij **NEW TASK** — pojawia się karta z polami `title:` i `users:`
+2. **Kliknij w kartę** — otwiera się edytor zadania: `title`, `Task Content`, `Assign Person`, `files`
+3. Wpisz **krótki** tytuł, np. `Analiza` (długie tytuły nachodzą na nazwę osoby na karcie)
+4. Opcjonalnie wpisz treść w polu **Task Content**
+5. Powiedz: *„Kierownik projektu definiuje zadanie w ramach etapu.”*
 
-1. Pokaż listę członków zespołu (domyślnie: Janusz)
-2. Powiedz: *„Każdy członek zespołu może być przypisany do zadań — zgodnie z rolą Członek zespołu z analizy wymagań”*
+### Krok 4 — Przypisanie osoby (1 min)
 
-### Krok 4 — Dodanie paska zadań (1 min)
+1. W edytorze kliknij **+** pod „Assign Person”
+2. W oknie **ADD PERSON** kliknij kartę **Janusz**, zamknij okno **X**
+3. Kliknij **czerwoną dyskietkę** (prawy górny róg edytora) — zapis
+4. Na karcie zadania widać tytuł i „Janusz”
+5. Powiedz: *„Lider zespołu deleguje zadanie konkretnej osobie.”*
 
-1. Kliknij przycisk dodawania nowego paska zadań (w panelu zadań)
-2. Pokaż, że pasek ma losowy kolor — wizualna organizacja etapów
-3. Powiedz: *„Paski reprezentują etapy lub kategorie prac w projekcie”*
+### Krok 5 — Drag & drop (1 min)
 
-### Krok 5 — Dodanie zadania (1,5 min)
+1. Przytrzymaj kartę zadania i **przeciągnij na drugi pasek**
+2. Karta przyjmuje kolor nowego paska
+3. Powiedz: *„Zadania można przenosić między etapami, gdy zmieniają się priorytety.”*
 
-1. Na nowym pasku kliknij dodaj zadanie
-2. Kliknij zadanie, aby otworzyć konfigurator
-3. Wypełnij przykładowe dane:
-   - **Nazwa:** „Przegląd literatury”
-   - **Opis:** „Analiza publikacji z ostatnich 5 lat”
-   - **Termin:** np. `2026-03-15`
-4. Zapisz zmiany
-5. Powiedz: *„Kierownik projektu definiuje zadania z terminem i opisem”*
+### Krok 6 — Zakończenie (30 s)
 
-### Krok 6 — Przypisanie osoby (1 min)
+1. Zamknij okno aplikacji
+2. Powiedz: *„To prototyp UI — dane są tylko w pamięci, po zamknięciu znikają. Kolejny krok to zapis do bazy.”*
 
-1. W konfiguratorze przypisz użytkownika (Janusz) do zadania
-2. Pokaż, że nazwa pojawia się na karcie zadania
-3. Powiedz: *„Lider zespołu deleguje zadania konkretnym osobom”*
+---
 
-### Krok 7 — Drag & drop (1,5 min)
+## Pokaz kodu źródłowego (3–5 min)
 
-1. Utwórz drugi pasek zadań (jeśli jeszcze nie ma)
-2. Przeciągnij zadanie z jednego paska do drugiego
-3. Powiedz: *„Zadania można reorganizować między etapami — np. po zmianie priorytetów w projekcie”*
+Otwórz `ZarzProj/Assets/` w Cursorze / VS Code albo na GitHubie. Kod ma komentarze (dodane w commicie „Added comments”, kwiecień 2026).
 
-### Krok 8 — Zakończenie demo (30 s)
-
-1. Kliknij **Stop** w Unity
-2. Powiedz: *„To prototyp UI — kolejnym krokiem jest zapis do bazy i moduły budżetowe oraz raportowe”*
+| Plik | Co pokazać | Linie |
+|------|-----------|-------|
+| `TaskBar.cs` | `Awake()` — losowy kolor paska; `AddNewTask()` — tworzenie karty z prefabu | cały plik (46 linii) |
+| `Scripts/TaskCell.cs` | Model zadania: `content`, `endDate`, `assignedPlayer`; `SetTaskCell()` | pola na górze |
+| `Scripts/TaskConfigurator.cs` | `ImportTask()` — wczytanie karty do edytora; `SaveCurrentTask()` — zapis | środek pliku |
+| `Scripts/Dragme.cs` | `OnBeginDrag()` / `OnEndDrag()` / `GetClosestObject()` — przyklejanie do najbliższego paska | cały plik |
+| `Manager.cs` | Singleton, `Awake()` dodaje użytkownika demo „Janusz”; `AddPlayer()` = pusty `TODO` | `Awake()` |
+| `ASUPro/Scripts/ASUPro_Core.cs` | `DoLogin()` — login `Janusz`/`1234` wpisany na sztywno, reszta idzie do PHP | ok. linia 57 |
 
 ---
 
@@ -103,77 +101,45 @@
 
 | Problem | Reakcja |
 |---------|---------|
-| Unity się nie kompiluje | Pokaż nagranie wideo z backupu |
-| Błąd przy logowaniu | Użyj dokładnie `Janusz` / `1234` (wielkość liter ma znaczenie) |
-| Drag & drop nie reaguje | Kliknij zadanie i przeciągnij za nagłówek/kartę; odśwież Play |
-| Konfigurator się nie otwiera | Kliknij bezpośrednio na kartę zadania |
-| Brak czasu na demo | Pokaż nagranie + slajd 8 (co zaimplementowano) |
+| `.exe` się nie uruchamia | Sprawdź, czy skopiowano cały folder; alternatywnie Unity → Play |
+| Edytor zadania się nie otwiera | Kliknij w dolną część karty (pod `title:`) |
+| Drag & drop nie reaguje | Chwyć kartę za środek i przeciągnij powoli nad drugi pasek |
+| Zapis nie działa | Kliknij dyskietkę jeszcze raz |
+| Brak czasu | Pokaż nagranie backup |
 
 ---
 
-## Czego NIE pokazywać na demo
+## Czego NIE obiecywać na demo
 
-- [ ] Logowanie przez PHP (wymaga XAMPP + konfiguracji `Config.php`)
-- [ ] Rejestrację nowego użytkownika (backend nie jest skonfigurowany)
-- [ ] Pliki `GetScores.cs` / `InsertScore.cs` (to pozostałości tutoriala, nie część RP)
-- [ ] Moduły budżetowe, raporty, Gantt — **nie istnieją w kodzie**
-
----
-
-## Konfiguracja Unity — ustawienia zalecane
-
-```
-Game View: 1920 x 1080
-Scale: 1x (lub dopasuj do projektora)
-Maximize on Play: opcjonalnie (wygodniejsze na prezentacji)
-```
-
-**Ścieżki w projekcie:**
-
-| Element | Ścieżka |
-|---------|---------|
-| Projekt Unity | `ZarzProj/` |
-| Główna scena | `ZarzProj/Assets/Scenes/SampleScene.unity` |
-| Scena logowania (asset) | `ZarzProj/Assets/ASUPro/Scene/Login.unity` |
-| Login demo | `Janusz` / `1234` |
-
----
-
-## Opcjonalnie: demo z PHP (zaawansowane)
-
-> Tylko jeśli masz czas i doświadczenie. **Nie jest wymagane** na prezentacji.
-
-1. Zainstaluj XAMPP (Apache + MySQL)
-2. Skopiuj `Login.php`, `Register.php`, `Config.php` do `htdocs/ASUPro/`
-3. Uzupełnij `Config.php` (host, baza, tabela)
-4. Zaimportuj `asupro.sql` do phpMyAdmin
-5. W Unity ustaw URL w `ASUPro_Core.cs`: `http://127.0.0.1/ASUPro/`
-6. Zarejestruj konto → zaloguj bez bypassu `Janusz`
-
-**Uwaga:** PHP używa przestarzałego API `mysql_*` — może nie działać na PHP 7+.
+- **Logowania** — kod istnieje (`ASUPro_Core.cs`), ale zbudowana aplikacja startuje od razu na tablicy zadań
+- **Terminu zadania** — pole `endDate` jest w modelu (`TaskCell.cs`), ale w edytorze zadania nie ma pola daty
+- **Dodawania członków zespołu** — jest tylko jeden użytkownik demo „Janusz” (`AddPlayer()` = `TODO`)
+- **Rejestracji / logowania przez PHP** — skrypty PHP to gotowy pakiet ASUPro (nagłówek „CREATED BY JAKE”), używają API `mysql_*` usuniętego w PHP 7, `Config.php` jest pusty — backend nie jest podłączony
+- **Zapisu zadań** — dane są tylko w pamięci
+- `GetScores.cs` / `InsertScore.cs` — pozostałości tutoriala, nie część RP
+- Modułów budżetowych, raportów, Gantta — **nie istnieją w kodzie**
 
 ---
 
 ## Szybka lista kontrolna — 5 min przed startem
 
 ```
-[ ] Unity otwarte, SampleScene załadowana
-[ ] Play → Janusz/1234 → działa
-[ ] Stop — gotowe do ponownego Play na prezentacji
+[ ] ResearchPlanner.exe uruchomiony raz na próbę i zamknięty
+[ ] Cursor / VS Code otwarty na ZarzProj/Assets
 [ ] Backup wideo dostępny
-[ ] Slajdy / PDF otwarte w tle
+[ ] Slajdy / PDF otwarte
 [ ] Powiadomienia wyłączone
 [ ] Laptop na zasilaniu
 ```
 
 ---
 
-## Materiały do pokazania obok demo (bez uruchamiania)
+## Materiały do pokazania obok demo
 
 | Plik | Kiedy pokazać |
 |------|---------------|
 | `KartaProjektu.md` | Wprowadzenie, zakres |
-| `AnalizaWymagan.md` | Role interesariuszy |
-| `diagramy/aktor-opiekun.png` | Diagram UML |
-| `image-6.png`, `image-7.png` | Diagramy Kierownik / Lider |
-| `Raport zamknięcia projektu.pdf` | Podsumowanie końcowe |
+| `AnalizaWymagan.md` | Role interesariuszy, wymagania |
+| `diagramy/aktor-opiekun.png` | Diagram UML — Opiekun |
+| `image-6.png`, `image-7.png` | Diagramy UML — Kierownik / Lider |
+| `Raport zamknięcia projektu.pdf` | Przebieg części II |

@@ -29,11 +29,13 @@ W **Karcie projektu** zapisaliśmy zakres, harmonogram i planowaną architektur�
 
 ---
 
-**Część druga** — marzec do czerwca 2026. Zespół zbudował **prototyp w Unity**.
+**Część druga** — marzec do czerwca 2026, w zmienionym składzie: Janusz Lejtan jako kierownik, ja jako analityk, Artur Matuszewski jako programista i Piotr Kotarski jako dokumentalista. Powstał **prototyp w Unity**.
 
-Co działa: logowanie, paski zadań jako etapy projektu, tworzenie i edycja zadań, przypisanie osoby, przeciąganie zadań między etapami.
+Co działa: paski zadań jako etapy projektu, tworzenie i edycja zadań, przypisanie osoby, przeciąganie zadań między etapami. **[Pokaż: `ResearchPlanner.exe` — ADD TASK BAR, NEW TASK, przypisanie Janusza, przeciągnięcie]**
 
-Czego brakuje: moduł finansowy, raportowanie, harmonogram Gantta, system ról, zapis zadań do bazy. Prototyp pokrywa głównie wymagania **Kierownika** i **Lidera** — reszta specyfikacji pozostała w dokumentacji.
+Czego brakuje: logowanie jest tylko w kodzie, backend PHP to niepodłączony przykładowy pakiet, zadania nie są zapisywane. Nie ma też modułu finansowego, raportowania, harmonogramu Gantta ani systemu ról. Prototyp pokrywa głównie wymagania **Kierownika** i **Lidera** — reszta specyfikacji pozostała w dokumentacji.
+
+**[Pokaż kod: `TaskCell.cs` — model zadania, `Dragme.cs` — przeciąganie]**
 
 Projekt zakończono przed wdrożeniem. W **Raporcie zamknięcia** wskazano przyczyny organizacyjne — problemy komunikacji i odejście części zespołu — nie techniczne.
 
@@ -65,8 +67,8 @@ Dziękuję za uwagę. Chętnie odpowiem na pytania.
 - Analiza wymagań + 3 diagramy UML
 
 **Slajd 2 — Część II**
-- Prototyp Unity: zadania, login, drag & drop
-- Brak: budżet, raporty, role, zapis do bazy
+- Prototyp Unity: etapy, zadania, delegowanie, drag & drop
+- Brak: logowanie (tylko w kodzie), backend, zapis do bazy, budżet, raporty, role
 - Raport zamknięcia: przyczyny organizacyjne
 
 **Slajd 3 — Podsumowanie**
@@ -82,7 +84,7 @@ Dziękuję za uwagę. Chętnie odpowiem na pytania.
 JA: Jarosław Abramek — analityk
 
 I (2025–2026): 5 ról, 20+ RF, UML ×3, Karta projektu
-II (2026): Unity — zadania, login, drag | brak: finanse, raporty
+II (2026): Unity — etapy, zadania, drag | brak: login, backend, zapis, finanse
 Status: analiza ✅ | prototyp ⚠️ | wdrożenie ❌
 
 Diagramy: aktor-opiekun, image-6, image-7
