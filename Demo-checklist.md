@@ -9,6 +9,8 @@
 
 **Opcja A — gotowy plik `.exe` (zalecana na prezentację)**
 
+Aktualna wersja: **v1.1** ([Releases → v1.1-prezentacja](https://github.com/yomen519/res-planning/releases/tag/v1.1-prezentacja)) — poprawione skalowanie interfejsu, tablica dopasowuje się do rozmiaru okna.
+
 Aplikacja zbudowana z Unity 2022.3.62f3 jako program dla Windows (ok. 74 MB):
 
 ```
@@ -47,11 +49,13 @@ ResearchPlanner-exe\ResearchPlanner.exe   ← dwuklik
 1. Dwuklik `ResearchPlanner.exe` — okno „Research Planner”
 2. Powiedz: *„To prototyp interfejsu Research Planner — tablica etapów i zadań projektu.”*
 
-### Krok 2 — Etapy projektu (1 min)
+### Krok 2 — Etapy projektu (1,5 min)
 
 1. Kliknij **ADD TASK BAR** (lewy górny róg) — **dwa razy**
 2. Pojawiają się dwa paski w losowych kolorach
-3. Powiedz: *„Paski reprezentują etapy projektu — np. analiza, badania, raport.”*
+3. Kliknij pole **„Change name:”** na pierwszym pasku, wpisz `Analiza`, zatwierdź Enterem
+4. To samo na drugim pasku: `Realizacja`
+5. Powiedz: *„Paski reprezentują etapy projektu — nazwy nadaję bezpośrednio na tablicy.”*
 
 ### Krok 3 — Nowe zadanie (1,5 min)
 
@@ -71,7 +75,7 @@ ResearchPlanner-exe\ResearchPlanner.exe   ← dwuklik
 
 ### Krok 5 — Drag & drop (1 min)
 
-1. Przytrzymaj kartę zadania i **przeciągnij na drugi pasek**
+1. Przytrzymaj kartę zadania i **przeciągnij na drugi pasek** — prowadź mysz **spokojnie**, przy gwałtownym ruchu karta wraca na miejsce
 2. Karta przyjmuje kolor nowego paska
 3. Powiedz: *„Zadania można przenosić między etapami, gdy zmieniają się priorytety.”*
 
@@ -103,7 +107,8 @@ Otwórz `ZarzProj/Assets/` w Cursorze / VS Code albo na GitHubie. Kod ma komenta
 |---------|---------|
 | `.exe` się nie uruchamia | Sprawdź, czy skopiowano cały folder; alternatywnie Unity → Play |
 | Edytor zadania się nie otwiera | Kliknij w dolną część karty (pod `title:`) |
-| Drag & drop nie reaguje | Chwyć kartę za środek i przeciągnij powoli nad drugi pasek |
+| Drag & drop nie reaguje | Chwyć kartę za środek i przeciągnij **powoli** nad drugi pasek |
+| Interfejs wygląda na ucięty | Używasz starej wersji v1.0 — pobierz v1.1 |
 | Zapis nie działa | Kliknij dyskietkę jeszcze raz |
 | Brak czasu | Pokaż nagranie backup |
 

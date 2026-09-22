@@ -7,7 +7,7 @@ Prowadzący: mgr Wojciech Moniuszko.
 
 Najszybciej — bez instalowania Unity:
 
-1. Pobierz `ResearchPlanner-v1.0-win64.zip` z [Releases → v1.0-prezentacja](https://github.com/yomen519/res-planning/releases/tag/v1.0-prezentacja)
+1. Pobierz `ResearchPlanner-v1.1-win64.zip` z [Releases → v1.1-prezentacja](https://github.com/yomen519/res-planning/releases/tag/v1.1-prezentacja)
 2. Rozpakuj całe archiwum i uruchom `ResearchPlanner\ResearchPlanner.exe`
 3. Jeśli Windows pokaże ostrzeżenie SmartScreen (program nie jest podpisany): **Więcej informacji → Uruchom mimo to**
 
@@ -43,5 +43,5 @@ Nie otwieraj projektu w Unity 6 — Hub zaproponuje upgrade projektu.
 
 ## Stan prototypu
 
-Działa: paski etapów, tworzenie i edycja zadań, przypisanie osoby, przeciąganie zadań między etapami.  
+Działa: paski etapów wraz z nadawaniem im nazw, tworzenie i edycja zadań, przypisanie osoby, przeciąganie zadań między etapami.  
 Nie działa / niepodłączone: logowanie (kod w `ASUPro_Core.cs`), backend PHP, zapis danych — szczegóły w `Demo-checklist.md`.
