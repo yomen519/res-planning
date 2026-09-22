@@ -40,6 +40,7 @@ Nie otwieraj projektu w Unity 6 — Hub zaproponuje upgrade projektu.
 | `ZarzProj/` | Kod źródłowy prototypu (Unity, C#) |
 | `ZarzProj/Assets/Scripts/` | Główne klasy: `TaskCell`, `TaskConfigurator`, `Dragme` |
 | `Prezentacja-*.md`, `Demo-checklist.md` | Materiały do prezentacji i scenariusz demo |
+| `prezentacja/` | Slajdy prezentacji projektu (PDF i PowerPoint) |
 
 ## Stan prototypu
 
